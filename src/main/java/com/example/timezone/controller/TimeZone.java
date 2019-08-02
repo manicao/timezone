@@ -28,7 +28,7 @@ public class TimeZone {
             @ApiResponse(code = 400, message = "Something wrong"),
     })
     @PostMapping("/timezone")
-    public ResponseEntity<EntityZone> convertZoneUTC(
+    public ResponseEntity<Response> convertZoneUTC(
             @ApiParam(value = "Employee object store in database table", required = true)
             @Valid @RequestBody EntityZone reques){
 
@@ -49,10 +49,28 @@ public class TimeZone {
 
         DateTimeFormatter format=DateTimeFormatter.ofPattern(DATE_FORMAT);
 
-        EntityZone response=new EntityZone(format.format(zonedDateTimeUTC),"utc");
+        EntityZone entityZone=new EntityZone(format.format(zonedDateTimeUTC),"utc");
 
+        Response response=new Response();
+        response.setResponse(entityZone);
 
         return ResponseEntity.ok(response);
 
+    }
+}
+
+
+class Response{
+    public EntityZone response;
+
+    public Response() {
+    }
+
+    public EntityZone getResponse() {
+        return response;
+    }
+
+    public void setResponse(EntityZone response) {
+       this.response = response;
     }
 }
